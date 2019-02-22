@@ -55,6 +55,15 @@ const dataManager = {
             body: JSON.stringify(placeToChangeObject)
         })
         },
+        editInterestData: (Id, interestToChangeObject) => {
+          return fetch(`http://localhost:8088/places/${Id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(interestToChangeObject)
+        })
+        },
         getEditPlacesData: function(id) {
             return fetch(`http://localhost:8088/places/${id}`)
             .then(res => res.json())

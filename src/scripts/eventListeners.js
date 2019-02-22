@@ -25,6 +25,8 @@ const eventListeners = {
 
     interestSaveFunction: () => {
         document.querySelector("#savePointsOfInterest").addEventListener("click", () => {
+            if (event.target.id === "savePointsOfInterest") {
+
             let interestName = document.querySelector("#interestLocation").value
             let pointsOfIntrest = document.querySelector("#placesPointsOfIntrest").value
 
@@ -35,8 +37,8 @@ const eventListeners = {
                 }
 
                 dataManager.postInterestData(interestObject)
+            }
         })
-
     },
 
     editDeleteFunction: () => {
@@ -54,12 +56,26 @@ const eventListeners = {
                     document.getElementsByClassName("displayInterest").innerHTML = ""
                     displayOnDom()
                 })
-        }
-        if (event.target.id.startsWith("editInterestButton--")) {
+            }
+            if (event.target.id.startsWith("editInterestButton--")) {
             let editId = event.target.id.split("--")[1]
             dataManager.deleteInterestData(editId).then(event => {
                 document.querySelector("#interestLocation").value = event.name
                 document.querySelector("#placesPointsOfIntrest").value = event.description
+
+                document.getElementById("saveEvent").id = "editInterestSaveButton"
+                document.getElementById("editInterestSaveButton").textContent = "Save Changes"
+
+                let interestName = document.querySelector("#interestLocation").value
+                let pointsOfIntrest = document.querySelector("#placesPointsOfIntrest").value
+
+                const newIntrestObject ={
+                    name: interestName,
+                    pointsOfIntrest: pointsOfIntrest
+                }
+
+                dataManager.editInterestData(editId, newIntrestObject)
+
             })
     }
     })
